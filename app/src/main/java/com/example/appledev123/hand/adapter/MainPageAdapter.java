@@ -46,4 +46,4 @@ public class MainPageAdapter extends RecyclerView.Adapter<MainPageAdapter.CardVi
     }
 
     }
-}
+
