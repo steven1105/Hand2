@@ -1,8 +1,11 @@
-package com.example.appledev123.hand;
+package com.example.appledev123.hand.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,29 +16,39 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.appledev123.hand.R;
+import com.example.appledev123.hand.adapter.MainPageAdapter;
 import com.mancj.materialsearchbar.MaterialSearchBar;
+
+import java.util.List;
 
 import static com.example.appledev123.hand.R.id.searchBar;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,MaterialSearchBar.OnSearchActionListener {
-public MaterialSearchBar searchBar;
+        implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener,MainPageAdapter.MyItemClickListener {
+    public MaterialSearchBar searchBar;
+    private RecyclerView recyclerView;
+    private List<String> data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         setSupportActionBar(toolbar);
         searchBar = (MaterialSearchBar) findViewById(R.id.searchBar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent=new Intent();
+                intent.setClass(MainActivity.this, QuestActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
         initSearchView(searchBar);
+        initRecyclerView(recyclerView);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -44,6 +57,17 @@ public MaterialSearchBar searchBar;
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initRecyclerView(RecyclerView recyclerView) {
+        MainPageAdapter mainPageAdapter = new MainPageAdapter(this, data);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+//设置布局管理器
+        recyclerView.setLayoutManager(layoutManager);
+
+//设置Adapter
+        recyclerView.setAdapter(mainPageAdapter);
+        mainPageAdapter.setOnItemClickListener(this);
     }
 
     private void initSearchView(MaterialSearchBar searchBar) {
@@ -128,6 +152,11 @@ public MaterialSearchBar searchBar;
 
     @Override
     public void onButtonClicked(int i) {
+
+    }
+
+    @Override
+    public void onItemClick(View view) {
 
     }
 }
