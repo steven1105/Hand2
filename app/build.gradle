@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.example.appledev123.hand"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -29,6 +29,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
     compile 'com.github.sharish:ShimmerRecyclerView:v1.0'
     compile 'com.github.mancj:MaterialSearchBar:0.3.5'
+    compile 'com.jakewharton:butterknife:7.0.1'
     testCompile 'junit:junit:4.12'
 
 }
