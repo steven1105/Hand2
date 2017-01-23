@@ -2,6 +2,7 @@ package com.example.appledev123.hand.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.appledev123.hand.R;
 import com.example.appledev123.hand.adapter.MainPageAdapter;
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -25,10 +28,11 @@ import java.util.List;
 import static com.example.appledev123.hand.R.id.searchBar;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, MaterialSearchBar.OnSearchActionListener,MainPageAdapter.MyItemClickListener {
+        implements MaterialSearchBar.OnSearchActionListener, MainPageAdapter.MyItemClickListener {
     public MaterialSearchBar searchBar;
     private RecyclerView recyclerView;
     private List<String> data;
+    private BottomNavigationBar mBottomNavigationBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +46,18 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setClass(MainActivity.this, QuestActivity.class);
                 MainActivity.this.startActivity(intent);
             }
         });
+        mBottomNavigationBar=(BottomNavigationBar)findViewById(R.id.bottom_navigation_bar);
+        mBottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher_round, "repository"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher_round, "request"))
+                .addItem(new BottomNavigationItem(R.mipmap.ic_launcher_round, "me"))
+                .initialise();
         initSearchView(searchBar);
         initRecyclerView(recyclerView);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void initRecyclerView(RecyclerView recyclerView) {
@@ -115,30 +116,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     @Override
     public void onSearchStateChanged(boolean b) {
